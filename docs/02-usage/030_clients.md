@@ -297,6 +297,104 @@ You will have to prompt Antigravity's agent to "Activate the current project usi
 Unlike VSCode, Antigravity does not currently support including the working directory in the MCP configuration.
 Also, the current client will be shown as `none` in Serena's dashboard (Antigravity currently does not fully support the MCP specifications). This is not a problem, all tools will work as expected.
 
+## opencode
+
+[opencode](https://github.com/sst/opencode) is an open-source, terminal-based AI coding agent that supports MCP servers
+and works with multiple LLM providers (Anthropic, OpenAI, Google, and local models).
+
+opencode uses a JSON configuration file (`opencode.json` or `opencode.jsonc`) to define MCP servers under the `mcp` key.
+
+### Global Configuration
+
+To enable Serena for all projects, add the following to your global opencode config at `~/.config/opencode/opencode.json`
+(create the file if it doesn't exist):
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "serena": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena",
+        "start-mcp-server",
+        "--context",
+        "ide"
+      ],
+      "enabled": true
+    }
+  }
+}
+```
+
+We use the `ide` context to avoid duplicating tools that opencode already provides (e.g. file reading and editing).
+
+After starting opencode in your project directory, you need to activate the project by prompting:
+
+> Activate the current project using serena's `activate_project` tool
+
+**If you don't activate the project, Serena's tools will not be able to locate symbols or read the project configuration!**
+
+### Per-Project Configuration
+
+For a project-specific setup, place `opencode.json` in your project root. This allows you to specify the project
+directory directly, so you don't need to activate the project at the start of every session:
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "serena": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "--from",
+        "git+https://github.com/oraios/serena",
+        "serena",
+        "start-mcp-server",
+        "--context",
+        "ide",
+        "--project",
+        "/absolute/path/to/your/project"
+      ],
+      "enabled": true
+    }
+  }
+}
+```
+
+Replace `/absolute/path/to/your/project` with the absolute path to your project root directory.
+
+### Notes
+
+- opencode has built-in LSP support of its own, so the `ide` context is the recommended choice to avoid
+  duplicating tools (file reads, file edits, etc.).
+- You can verify that Serena has connected successfully by checking for `serena_*` tools in opencode's tool list.
+- If the `uvx` command is not found, provide the full path to the `uvx` executable (see [common pitfalls](#clients-common-pitfalls)).
+- For language servers that require environment variables (e.g. F# on macOS with Homebrew), add an `environment` key:
+
+  ```json
+  {
+    "$schema": "https://opencode.ai/config.json",
+    "mcp": {
+      "serena": {
+        "type": "local",
+        "command": ["uvx", "--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "ide"],
+        "enabled": true,
+        "environment": {
+          "DOTNET_ROOT": "/opt/homebrew/Cellar/dotnet/9.0.8/libexec"
+        }
+      }
+    }
+  }
+  ```
+
+For more details on opencode's configuration format, refer to the
+[opencode MCP servers documentation](https://opencode.ai/docs/mcp-servers).
+
 ## Other Clients
 
 For other clients, follow the [general instructions](#clients-general-instructions) above to set up Serena as an MCP server.
@@ -307,9 +405,8 @@ There are many terminal-based coding assistants that support MCP servers, such a
 
  * [Gemini-CLI](https://github.com/google-gemini/gemini-cli), 
  * [Qwen3-Coder](https://github.com/QwenLM/Qwen3-Coder),
- * [rovodev](https://community.atlassian.com/forums/Rovo-for-Software-Teams-Beta/Introducing-Rovo-Dev-CLI-AI-Powered-Development-in-your-terminal/ba-p/3043623),
- * [OpenHands CLI](https://docs.all-hands.dev/usage/how-to/cli-mode) and
- * [opencode](https://github.com/sst/opencode).
+ * [rovodev](https://community.atlassian.com/forums/Rovo-for-Software-Teams-Beta/Introducing-Rovo-Dev-CLI-AI-Powered-Development-in-your-terminal/ba-p/3043623) and
+ * [OpenHands CLI](https://docs.all-hands.dev/usage/how-to/cli-mode).
 
 They generally benefit from the symbolic tools provided by Serena. You might want to customize some aspects of Serena
 by writing your own context, modes or prompts to adjust it to the client's respective internal capabilities (and your general workflow).
