@@ -28,10 +28,10 @@ gui_log_window: False
 # The web dashboard is supported on all platforms.
 # We strongly recommend to always enable this option, since the dashboard provides important information
 # about the current state of Serena, including the configuration, the logs and tool usage statistics.
-# If you don't want the browser window to pop up automatically, set the `web_dashboard_open_on_launch` to False
-# (either here or through the corresponding flag in the `start-mcp-server` CLI command).
-# You can then open the dashboard by asking your agent to do so (e.g., by saying "open the dashboard"), Serena provides
-# a tool for this.
+# By default, the browser window does not open automatically; set `web_dashboard_open_on_launch` to True
+# if you want the browser to open when Serena starts.
+# You can open the dashboard at any time by asking your agent to do so (e.g., by saying "open the dashboard"),
+# or by navigating directly to the URL in your browser.
 # Further information: https://oraios.github.io/serena/02-usage/060_dashboard.html
 web_dashboard: True
 
@@ -40,12 +40,14 @@ web_dashboard_listen_address: 127.0.0.1
 
 # whether to open a browser window with the web dashboard when Serena starts (provided that web_dashboard
 # is enabled). See also the web_dashboard option.
-# If set to false, you can still open the dashboard manually by
+# Disabled by default to avoid automatically stealing focus from your working environment.
+# If set to true, the dashboard will open in your default browser when Serena starts.
+# If set to false (the default), you can still open the dashboard manually by
 # a) telling the LLM to "open the dashboard" (provided that the open_dashboard tool is enabled) or by
 # b) manually navigating to http://localhost:24282/dashboard/ in your web browser (actual port
 #    may be higher if you have multiple instances running; try ports 24283, 24284, etc.)
 # See also: https://oraios.github.io/serena/02-usage/060_dashboard.html
-web_dashboard_open_on_launch: True
+web_dashboard_open_on_launch: False
 
 # address where JetBrains plugin servers are running (only relevant when using the JetBrains language backend)
 jetbrains_plugin_server_address: 127.0.0.1
