@@ -200,7 +200,8 @@ class TopLevelCommands(AutoRegisteringGroup):
         is_flag=False,
         default=None,
         help="Enable the web dashboard (overriding the setting in Serena's config). "
-        "It is recommended to always enable the dashboard. If you don't want the browser to open on startup, set open-web-dashboard to False. "
+        "It is recommended to always enable the dashboard. The browser is not opened automatically by default; "
+        "use --open-web-dashboard True to open it on startup. "
         "For more information, see\nhttps://oraios.github.io/serena/02-usage/060_dashboard.html",
     )
     @click.option(
@@ -215,7 +216,8 @@ class TopLevelCommands(AutoRegisteringGroup):
         type=bool,
         is_flag=False,
         default=None,
-        help="Open Serena's dashboard in your browser after MCP server startup (overriding the setting in Serena's config).",
+        help="Open Serena's dashboard in your browser after MCP server startup (overriding the setting in Serena's config). "
+        "Disabled by default; pass True to open the browser on startup.",
     )
     @click.option(
         "--log-level",
