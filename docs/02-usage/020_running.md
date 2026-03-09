@@ -96,7 +96,8 @@ Given your preferred method of running Serena, you can start the MCP server usin
     <serena> start-mcp-server [options]  
 
 Note that no matter how you run the MCP server, Serena will, by default, start a web-based dashboard on localhost that will allow you to inspect
-the server's operations, logs, and configuration.
+the server's operations, logs, and configuration. The dashboard browser window is **not** opened automatically; you can navigate to it
+manually or pass `--open-web-dashboard True` to open it on startup.
 
 :::{tip}
 By default, Serena will use language servers for code understanding and analysis.    
@@ -169,7 +170,7 @@ Some useful options include:
   * `--language-backend JetBrains`: use the Serena JetBrains Plugin as the language backend (overriding the default backend configured in the central configuration)
   * `--context <context>`: specify the operation [context](contexts) in which Serena shall operate
   * `--mode <mode>`: specify one or more [modes](modes) to enable (can be passed several times)
-  * `--open-web-dashboard <true|false>`: whether to open the web dashboard on startup (enabled by default)
+  * `--open-web-dashboard <true|false>`: whether to open the web dashboard browser window on startup (disabled by default)
 
 ## Other Commands
 

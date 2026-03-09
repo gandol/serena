@@ -167,9 +167,9 @@ It is recommend to set this prompt as a [custom prompt](https://developers.opena
 
 That's it! Have a look at `~/.codex/log/codex-tui.log` to see if any errors occurred.
 
-Serena's dashboard will run if you have not disabled it in the configuration, but due to Codex's sandboxing, the web browser
-may not open automatically. You can open it manually by going to `http://localhost:24282/dashboard/index.html` (or a higher port, if
-that was already taken).
+Serena's dashboard will run in the background (if you have not disabled it in the configuration), but the web browser
+will not open automatically. You can open it manually by going to `http://localhost:24282/dashboard/index.html` (or a higher port, if
+that was already taken), or by passing `--open-web-dashboard True` to the `start-mcp-server` command.
 
 > Codex will often show the tools as `failed` even though they are successfully executed. This is not a problem, seems to be a bug in Codex. Despite the error message, everything works as expected.
 
